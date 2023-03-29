@@ -1,5 +1,16 @@
 ---
 # tasks file for postgree
+- name: Add postgresql apt repository key
+  apt_key:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+    state: present
+
+- name: Add postgresql apt repository
+  apt_repository:
+    repo: "deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main"
+    state: present
+    update_cache: yes
+
 - name: Install packages
   apt:
     name: "postgresql-{{ postgresql_version }}"
