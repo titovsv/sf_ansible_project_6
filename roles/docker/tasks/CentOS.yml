@@ -1,0 +1,25 @@
+- name: Add Docker repo
+  yum_repository:
+    name: docker
+    description: Docker CE Stable - $basearch
+    baseurl: https://download.docker.com/linux/centos/$releasever/$basearch/stable
+    enabled: yes
+    gpgcheck: yes
+    gpgkey: https://download.docker.com/linux/centos/gpg
+
+- name: Yum update 
+  yum:
+    update_cache: yes
+
+- name: Install docker packages
+  yum:
+    name: "{{ pkgs }}"
+  vars:
+    pkgs:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+  notify:
+    - restart docker service

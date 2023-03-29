@@ -1,0 +1,10 @@
+---
+# tasks file for postgree
+- name: Install packages
+  apt:
+    name: "postgresql-{{ postgresql_version }}"
+    state: present
+  notify:
+    - restart postgresql
+
+

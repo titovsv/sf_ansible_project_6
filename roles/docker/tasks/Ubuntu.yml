@@ -1,0 +1,42 @@
+- name: Apt update
+  apt:
+    update_cache: yes
+
+- name: Install packages to use a repository over HTTPS
+  apt:
+    name: "{{ pkgs }}"
+  vars:
+    pkgs:
+      - ca-certificates
+      - curl
+      - gnupg
+
+- name: Add Docker’s official GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    keyring: /usr/share/keyrings/docker-archive-keyring.gpg
+    state: present
+
+- name: Set up the stable docker repository
+  apt_repository:
+    repo: deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+    state: present
+
+- name: Apt update
+  apt:
+    update_cache: yes
+
+- name: Install docker packages
+  apt:
+    name: "{{ pkgs }}"
+    state: present
+    install_recommends: yes
+  vars:
+    pkgs:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+  notify:
+    - restart docker service

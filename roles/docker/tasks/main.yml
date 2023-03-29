@@ -1,0 +1,8 @@
+---
+- name: Install on Ubuntu
+  import_tasks: ./Ubuntu.yml
+  when: ansible_facts['distribution']|lower == 'ubuntu'
+
+- name: Install on CentOS
+  import_tasks: ./CentOS.yml
+  when: ansible_facts['distribution']|lower == 'centos'

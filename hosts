@@ -1,0 +1,17 @@
+vm1 ansible_host=192.168.10.20
+vm2 ansible_host=192.168.10.21
+vm3 ansible_host=192.168.10.22
+
+[app]
+vm2
+vm3
+
+[database]
+vm1
+
+[web]
+vm1
+
+[database:vars]
+postgresql_version=12
+postgresql_data_dir="/var/lib/postgresql/{{ postgresql_version }}/main"
